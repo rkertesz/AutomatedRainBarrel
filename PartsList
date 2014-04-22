@@ -1,0 +1,24 @@
+Flow control:
+-(a) EITHER Control output to lawn using valve
+--Automated valve http://www.wateryourlandscape.com/product/059 Must be hacked
+--Beer brewing valve may work 
+-(b) OR Control output to lawn using pump (requires vertical rise to top of barrel before draining and an anti-siphon valve)
+--Bilge pump runs off of less than 2A http://www.basspro.com/Attwood-Tsunami-Bilge-Pumps/product/52472/
+---works well with standard arduino motor shields 
+--(note that pump and valve can be combined rather than using anti-siphon)
+
+Rain barrel:
+-Many rain barrels are available from Home Depot, Lowes, etc.
+--Still looking at the best one to use here. Larger volume is better, generally
+--Subject to change because it is smallish http://www.homedepot.com/p/EarthMinded-RainStation-45-gal-Rain-Barrel-with-Diverter-Charcoal-85-Recycled-Content-RS45-RC/203260850?N=5yc1vZc7pb
+
+Drainage to network (e.g. before storm event). (Designed to drain to sewer/stormwater network if the tank does not have enough volume before event)
+- Control output using valve (same as above)
+--Requires second spigot and method to tie back into drain
+- Control output using pump (same as above)
+--Requires discharge point to be higher than the top of the barrel. Can be designed to pump up into the existing overflow port on the rainbarrel (particularly if the overflow is designed to plumb into the network).
+
+Microcontroller and electronics:
+- Arduino Yun (if processing is done onboard) allows connection to WiFi
+- Spark Core (if processing is done in cloud) allows connection to WiFi 
+--Recommended to combine the Spark Core with the solar power shield to minimize power consumption and also recharge 
