@@ -1,16 +1,22 @@
 Flow control:
 -(a) EITHER Control output to lawn using valve
---Automated valve http://www.wateryourlandscape.com/product/059 Must be hacked
---Beer brewing valve may work 
+--Recommended 3/4" ball valve. Stays in open or closed position without using power. However, operation requires up to 100 mA at 12V. Available on amazon http://www.amazon.com/MISOL-motorized-electrical-acuator-reduce/dp/B00FDMP5MS/ref=sr_1_2?ie=UTF8&qid=1401062730&sr=8-2&keywords=motorized+ball+valve
+--2nd: Magnetic latching 3/4" valve available allows for low power consumption while either open or closed (doesn't require continuous power to hold position). Model 827Y19DELM. Price unknown. http://peterpaul.com/specialty-valves/miniature-valves/model-80-827-magenetic-latching/
+--3rd option: Automated valve http://www.wateryourlandscape.com/product/059 Must be hacked
+--Low pressure brass solenoid valve would work but size is 1/2" instead of preferred 3/4"; it uses 1600mA at 6V; and it requires constant voltage to stay open http://www.adafruit.com/products/996?gclid=COH5kuCjx74CFVR5MgodMSgApQ
+--Beer brewing valve may work  but cannot find one
+
 -(b) OR Control output to lawn using pump (requires vertical rise to top of barrel before draining and an anti-siphon valve)
 --Bilge pump runs off of less than 2A http://www.basspro.com/Attwood-Tsunami-Bilge-Pumps/product/52472/
 ---works well with standard arduino motor shields 
 --(note that pump and valve can be combined rather than using anti-siphon)
 
 Rain barrel:
--Many rain barrels are available from Home Depot, Lowes, etc.
---Still looking at the best one to use here. Larger volume is better, generally
---Subject to change because it is smallish http://www.homedepot.com/p/EarthMinded-RainStation-45-gal-Rain-Barrel-with-Diverter-Charcoal-85-Recycled-Content-RS45-RC/203260850?N=5yc1vZc7pb
+-Reccomended rain barrel for this project is the EarthMinded 65-Gallon Granite Plastic Rain Barrel with Diverter Spigot
+-Larger capactiy than most rainbarrels of similar footprint. 
+-Available at most Lowe's stores 
+-Includes drill bits and pieces to divert flow from downspout
+http://www.lowes.com/pd_20326-21785-PRN1032_4294612466__?productId=4363245&Ns=p_product_qty_sales_dollar|1&pl=1&currentURL=%3FNs%3Dp_product_qty_sales_dollar|1&facetInfo=
 
 Drainage to network (e.g. before storm event). (Designed to drain to sewer/stormwater network if the tank does not have enough volume before event)
 - Control output using valve (same as above)
@@ -19,6 +25,6 @@ Drainage to network (e.g. before storm event). (Designed to drain to sewer/storm
 --Requires discharge point to be higher than the top of the barrel. Can be designed to pump up into the existing overflow port on the rainbarrel (particularly if the overflow is designed to plumb into the network).
 
 Microcontroller and electronics:
-- Arduino Yun (if processing is done onboard) allows connection to WiFi
 - Spark Core (if processing is done in cloud) allows connection to WiFi 
---Recommended to combine the Spark Core with the solar power shield to minimize power consumption and also recharge 
+--Recommended to combine the Spark Core with the spark solar power shield to minimize power consumption and also recharge (still in development)
+- DEPRECATED: Arduino Yun (if processing is done onboard) allows connection to WiFi
