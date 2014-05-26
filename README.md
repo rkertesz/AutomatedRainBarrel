@@ -5,7 +5,7 @@ Open source internet connected rainbarrel to improve stormwater control and redu
 
 Overview:
 
-The automated rainbarrel project is designed to determine how quickly open-source collaborative efforts can result in a functioning, intelligent, "internet of things" product that can serve both people and the environment. This is part of an independent research project and the results (specifically documentation on who is contributing and how it takes shape) will be presented at a conference on water resources in June of 2014. 
+The automated rainbarrel project is designed to determine how quickly open-source collaborative efforts can result in a functioning, intelligent, "internet of things" product that can serve both people and the environment. This is part of an independent research project and the results (specifically documentation on who is contributing and how it takes shape) will be presented at a conference on water resources in June of 2014 and again when the project is considered complete (a functioning automated rain barrel exists). 
 
 Details:
 
