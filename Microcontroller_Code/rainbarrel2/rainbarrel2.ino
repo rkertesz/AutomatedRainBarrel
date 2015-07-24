@@ -55,7 +55,7 @@ void setup() {
 // Setup valves and pumps 
   pinMode(D3, OUTPUT);
   pinMode(D4, OUTPUT);
-  pinMode(D5, OUTPUT);
+//  pinMode(D5, OUTPUT);
 
   // Get time
   Spark.syncTime(); // Syncs time with the cloud
@@ -348,7 +348,8 @@ int flagOpenValve = 0;
       if (useDrainPump) {
         Serial.println("Run Drainage pump");
         delay(200);
-        digitalWrite (D5, HIGH);
+        digitalWrite (D3, HIGH);
+        digitalWrite (D4, HIGH);
         delay (2000);
       }
       else {
@@ -366,7 +367,8 @@ int flagOpenValve = 0;
 
     Serial.println("Turn Pump Off");
     delay(200);
-    digitalWrite (D5, LOW); // pump is off
+    digitalWrite (D3, LOW); // PUMP off
+    digitalWrite (D4, LOW); // pump is off
     delay (2000);
   }
 
@@ -374,10 +376,10 @@ int flagOpenValve = 0;
   if ((Volume > threeHrVolume) || (dist > maxDist)) {
     Serial.println("Make sure everything is Off and Close the Valve");
       delay (100);
-    digitalWrite (D5, LOW); // pump is off JUST in case
-      delay (2000);
+    digitalWrite (D4, LOW); // pump is off JUST in case
+//      delay (2000);
     digitalWrite(D3, LOW); //valve isn't trying to open, just in case
-  delay (2000);
+    delay (2000);
     if (flagOpenValve == 1){
        digitalWrite(D4, HIGH); // I've just sent a command to close the valve
        delay (2000);
