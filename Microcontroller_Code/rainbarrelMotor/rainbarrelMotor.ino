@@ -26,15 +26,8 @@ int pinI3 = 12; //define I3 interface
 int pinI4 = 13; //define I4 interface
 int speedpinB = 10; //enable motor B
 int spead = 127; //define the spead of motor
+int incomingByte;      // a variable to read incoming serial data into
 
-int inPin3 = 3;
-int inPin4 = 4;
-int inPin5 = 5;
-
-int inValue3 = 0;
-int inValue4 = 0;
-int inValue5 = 0;
-  
 void setup()
 {
   pinMode(pinI1, OUTPUT);
@@ -44,17 +37,60 @@ void setup()
   pinMode(pinI4, OUTPUT);
   pinMode(speedpinB, OUTPUT);
 
-//use input pullup to keep stray electricity from causing problem
-//  pinMode(inPin3, INPUT_PULLUP);
-//  pinMode(inPin4, INPUT_PULLUP);
-//  pinMode(inPin5, INPUT_PULLUP);
-  pinMode(inPin3, INPUT);
-  pinMode(inPin4, INPUT);
-  pinMode(inPin5, INPUT);
-
-
-  Serial.begin(9600); 
+  Serial.begin(9600);
 }
+
+
+void loop()
+{
+  // see if there's incoming serial data:
+  if (Serial.available() > 0) {
+    // read the oldest byte in the serial buffer:
+    incomingByte = Serial.read();
+
+    if (incomingByte == 'O') {
+      vopen();
+      delay(3000);
+      Serial.write('O');
+      delay(300);
+      stopnow(); //  stopnow includes delay
+    }
+
+    if (incomingByte == 'P') {
+      //just in case the valve isn't open it, let's open it.
+      // the valve itself won't open any more than its maximum (has a limiter),
+      // so this shouldn't burn it out. ..
+      // ..this will eventually be the secondary valve.
+      vopen();
+      delay(3000);
+      stopnow(); //  stopnow includes delay
+      forward(); // RUN PUMP
+      Serial.write('P');
+      delay(1000);
+    }
+
+    if (incomingByte == 'S') {
+      stopnow(); //  stopnow includes delay
+      Serial.write('S');
+      delay(1000);
+    }
+    
+    if (incomingByte == 'C') {
+      vclose();
+      delay(3000);
+      Serial.write('C');
+      delay(300);
+      stopnow();
+    }
+
+
+    // IF I WANTED TO RUN PUMP IN REVERSE
+    //  backward();
+    //  delay(3000);
+    //  stopnow();
+  }
+}
+
 
 void forward() // Pump forward
 {
@@ -92,60 +128,11 @@ void vclose()// close valve
   digitalWrite(pinI4, LOW); //turn DC Motor B move anticlockwise
   digitalWrite(pinI3, HIGH);
 }
-void stop()//
+void stopnow()//
 {
-  digitalWrite(speedpinA, LOW); // Unenble the pin, to stop the motor. this should be done to avid damaging the motor.
+  digitalWrite(speedpinA, LOW); // Unenble the pin, to stopnow the motor. this should be done to avid damaging the motor.
   digitalWrite(speedpinB, LOW);
   delay(1000);
-}
-
-void loop()
-{
-
-   inValue3 = digitalRead(inPin3); // open valve
-   inValue4 = digitalRead(inPin4); // close valve
-   inValue5 = digitalRead(inPin5); // run pump
-
-Serial.println(inValue3);
-Serial.println(inValue4);
-Serial.println(inValue5);
-
-  if (inValue3 == HIGH && inValue4 == LOW) {
-    delay (400);
-      if (inValue3 == HIGH && inValue4 == LOW) {    
-        vopen();
-        delay(3000);
-        stop(); //  stop includes delay
-      }
-  }
-  if (inValue5 == HIGH) {
-    delay (400);
-    if (inValue5 == HIGH) {
-      forward();
-      delay(1000);
-    }
-  }
-  if (inValue5 == LOW) {
-    stop();
-  }
-  if (inValue3 == LOW && inValue4 == HIGH) {
-      delay (400);
-      if (inValue3 == LOW && inValue4 == HIGH) {  
-        vclose();
-        delay(3000);
-        stop();
-      }
-  }
-
-  // IF I WANTED TO RUN PUMP IN REVERSE
-  //  backward();
-  //  delay(3000);
-  //  stop();
-
-//Serial.println (inValue3);
-//Serial.println (inValue4);
-//Serial.println (inValue5);
-//delay(1000);
 }
 
 
