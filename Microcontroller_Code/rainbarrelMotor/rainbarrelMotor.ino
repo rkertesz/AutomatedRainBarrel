@@ -130,9 +130,14 @@ void vclose()// close valve
 }
 void stopnow()//
 {
+  digitalWrite(pinI4, LOW); //turn DC Motor B move anticlockwise
+  digitalWrite(pinI3, LOW);
+  digitalWrite(pinI2, LOW); //turn DC Motor A move clockwise
+  digitalWrite(pinI1, LOW);
   digitalWrite(speedpinA, LOW); // Unenble the pin, to stopnow the motor. this should be done to avid damaging the motor.
   digitalWrite(speedpinB, LOW);
   delay(1000);
 }
+
 
 

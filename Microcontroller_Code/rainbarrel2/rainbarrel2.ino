@@ -33,6 +33,9 @@ float Volume = 0;
 int flagOpenValve;
 int flagPumpRunning;
 
+
+bool subscribed;
+
 // called once on startup
 void setup() {
 
@@ -77,7 +80,12 @@ void setup() {
   Volume = Cpi * dist * radius * radius; // Initialize volume - this is the available capacity
 
   // Lets listen for the hook response
-  Spark.subscribe("hook-response/tstWndrGnd", gotWeatherData, MY_DEVICES);
+  subscribed = Spark.subscribe("hook-response/test1", gotWeatherData, MY_DEVICES);
+  if (!subscribed)
+    Serial.println("FIRST RESP subscription failed for test1 webhook");
+  // and wait at least 10 seconds to allow time to connect
+  delay(10000); // in case i want to flash the spark core
+
 
   // Lets give ourselves 10 seconds before we actually start the program.
   // That will just give us a chance to open the serial monitor before the program sends the request
@@ -118,9 +126,17 @@ void loop() {
   Serial.println("Requesting Weather!");
   delay(300);
   // publish the event that will trigger our webhook
-  Spark.publish("tstWndrGnd");
+  Spark.publish("test1");
   // and wait at least 60 seconds before doing it again
-  delay(500000);
+  subscribed = Spark.subscribe("hook-response/test1", gotWeatherData, MY_DEVICES);
+  if (!subscribed) {
+    delay(10000);
+    Serial.println("wait 10 sec subscription failed for iobridge...trying again");
+    subscribed = Spark.subscribe("hook-response/test1", gotWeatherData, MY_DEVICES);
+  }
+  // and wait at least 10 seconds to allow time to connect
+  Serial.println("wait 25 sec");
+  delay(25000);
 }
 
 // This function will get called when weather data comes in
@@ -158,28 +174,28 @@ void gotWeatherData(const char *name, const char *data) {
       if (q > 2) q = 0;
       if (q == 0) {
         strncpy(strArray[counter], token, 2); // You've got to COPY the data pointed to
-        Serial.println("token1");
-        delay(100);
-        Serial.println(token);
-        delay(200);
+        //        Serial.println("token1");
+        //        delay(100);
+        //        Serial.println(token);
+        //        delay(200);
         //q++;
         //continue;
       }
       if (q == 1) {
         strncpy(strArray2[counter], token, 4); // You've got to COPY the data pointed to
-        Serial.println("token2");
-        delay(100);
-        Serial.println(token);
-        delay(200);
+        //        Serial.println("token2");
+        //        delay(100);
+        //        Serial.println(token);
+        //        delay(200);
         //q++;
         //continue;
       }
       if (q == 2) {
         strncpy(strArray3[counter++], token, 2); // You've got to COPY the data pointed to
-        Serial.println("token3");
-        delay(100);
-        Serial.println(token);
-        delay(200);
+        //        Serial.println("token3");
+        //        delay(100);
+        //        Serial.println(token);
+        //        delay(200);
         //q = 0;
       }
       q++;
@@ -203,7 +219,7 @@ void gotWeatherData(const char *name, const char *data) {
     vQPF [i] = atof(strArray2[i]);
     vPOP [i] = 0.01 * atof(strArray3[i]); // turn it into percentage
     Serial.println("vectors " + String(vHour[i]) + " , " + String(vQPF[i]) + " , " + String(vPOP[i]) + " , " ) ;
-    delay(250);
+    delay(150);
   }
 
   // free data	????????????
@@ -371,11 +387,14 @@ void operateSystem(float vConvPassed[24]) {
       Serial.println("Turn Pump Off");
       delay(200);
       Serial1.write('S'); //I've just sent a command to stop the pump (and not move the valves)
-      delay (2000);
+      delay (1000);
       Serial.println("Make sure everything is Off and Close the Valve");
       //if (flagOpenValve == 1){
       Serial1.write('C');// I've just sent a command to close the valve
-      delay (2000);
+      delay (4500);
+      Serial1.write('S'); //I've just sent a command to stop the pump (and not move the valves)
+      delay (1000);
+
       //}
     }
 
